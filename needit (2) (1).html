@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NeedIt – Buy Smart, Save More</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4FAF6;--card:#fff;--ink:#14301F;--mute:#4B6355;--line:#D5E6DB;--g:#168A55;--gl:#DDF4E7;--b:#1D5FD6;--bl:#E1ECFF;--y:#FFC83D;--yl:#FFF3CC;--c:#E5482F;--cl:#FFE4DE;--sh:0 6px 20px rgba(20,48,31,.09);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1A14;--card:#18271E;--ink:#EAF6EE;--mute:#A7C0B0;--line:#2B4034;--g:#4FD08D;--gl:#1B3A2A;--b:#7FAEFF;--bl:#1B2A47;--y:#FFD25E;--yl:#3A3115;--c:#FF8E7A;--cl:#41221C;--sh:0 6px 20px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#0F1A14;--card:#18271E;--ink:#EAF6EE;--mute:#A7C0B0;--line:#2B4034;--g:#4FD08D;--gl:#1B3A2A;--b:#7FAEFF;--bl:#1B2A47;--y:#FFD25E;--yl:#3A3115;--c:#FF8E7A;--cl:#41221C;--sh:0 6px 20px rgba(0,0,0,.4)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 17px/1.55 Nunito,system-ui,sans-serif}
+h1,h2,h3{font-family:Fredoka,Nunito,system-ui,sans-serif;line-height:1.15;margin:0 0 .4em}
+h1{font-size:clamp(2.6rem,8vw,4.6rem)}h2{font-size:clamp(1.7rem,4vw,2.3rem)}h3{font-size:1.25rem}
+p{margin:0 0 .8em;max-width:62ch}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:2px solid var(--line);display:flex;gap:6px;padding:8px 12px;overflow-x:auto;align-items:center}
+nav b{font:700 1.4rem Fredoka,sans-serif;color:var(--g);margin-right:8px;white-space:nowrap}
+nav button{flex:none;border:2px solid transparent;background:none;color:var(--ink);font:700 .95rem Nunito,sans-serif;padding:10px 14px;border-radius:999px;cursor:pointer;min-height:44px}
+nav button[aria-current=page]{background:var(--gl);border-color:var(--g);color:var(--ink)}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;box-shadow:var(--sh);padding:20px;margin-bottom:16px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.btn{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--g);background:var(--g);color:#fff;font:700 1.05rem Nunito,sans-serif;padding:12px 22px;border-radius:999px;cursor:pointer;min-height:48px}
+:root:not([data-theme="light"]) .btn{color:#06210f}
+.btn.alt{background:var(--card);color:var(--ink);border-color:var(--line)}
+.btn:focus-visible,nav button:focus-visible,input:focus-visible,select:focus-visible,.opt:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+.hero{display:grid;gap:20px;grid-template-columns:1.2fr 1fr;align-items:center;padding:20px 0}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.hero svg{max-width:220px;margin:auto}}
+.hero h1 span{color:var(--g)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700;font-size:.95rem}
+label{display:block;font-weight:800;font-size:.95rem;margin:10px 0 4px}
+input,select{width:100%;font:600 1rem Nunito,sans-serif;padding:12px;border-radius:14px;border:2px solid var(--line);background:var(--bg);color:var(--ink);min-height:48px}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat{border-radius:18px;padding:16px;border:2px solid}
+.stat small{display:block;font-weight:800}.stat strong{font:700 1.6rem Fredoka,sans-serif}
+.s1{background:var(--gl);border-color:var(--g)}.s2{background:var(--bl);border-color:var(--b)}.s3{background:var(--yl);border-color:var(--y)}.s4{background:var(--cl);border-color:var(--c)}
+.bar{height:22px;border-radius:99px;background:var(--line);overflow:hidden;display:flex}
+.bar i{display:block;height:100%;transition:width .5s}
+.pct{font-weight:800;margin-top:6px}
+.nito{display:flex;gap:12px;align-items:center;background:var(--yl);border:2px solid var(--y);border-radius:20px;padding:10px 14px;margin-bottom:16px}
+.nito svg{width:70px;flex:none}.nito p{margin:0;font-weight:700}
+.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:12px 0}
+.opt{background:var(--card);border:2px solid var(--line);color:var(--ink);border-radius:16px;padding:14px;font:700 1rem Nunito,sans-serif;text-align:left;cursor:pointer;min-height:52px}
+.opt[aria-pressed=true]{border-color:var(--g);background:var(--gl)}
+.res{border-radius:20px;padding:18px;margin-top:14px;border:2px solid}
+.res h3{font-size:1.5rem}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px 6px;border-bottom:1px solid var(--line)}
+.tag{font-weight:800;font-size:.85rem;padding:3px 10px;border-radius:99px;border:2px solid}
+.badges{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.bd{border:2px dashed var(--line);border-radius:16px;padding:12px;opacity:.65}
+.bd.got{opacity:1;border:2px solid var(--y);background:var(--yl)}
+.bd b{display:block}.bd small{color:var(--mute)}
+.spk{border:2px solid var(--b);background:var(--bl);color:var(--ink);border-radius:999px;padding:6px 14px;font:700 .9rem Nunito,sans-serif;cursor:pointer;min-height:40px}
+.jar{display:flex;align-items:flex-end;gap:4px;height:140px;margin:12px 0}
+.jar div{flex:1;background:var(--g);border-radius:6px 6px 0 0;min-height:3px}
+.note{color:var(--mute);font-size:.95rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+<style>
+#login{position:fixed;inset:0;z-index:20;background:var(--bg);display:none;align-items:center;justify-content:center;padding:16px;overflow:auto}
+#login.on{display:flex}#login .card{max-width:440px;width:100%;margin:0}
+.lg{display:flex;gap:8px;margin:8px 0}.lg .opt{flex:1;text-align:center}
+nav .sp{margin-left:auto}
+body.locked nav,body.locked main{display:none}
+</style>
+</head>
+<body>
+<div id="login" role="dialog" aria-modal="true" aria-labelledby="lt">
+<div class="card">
+<div id="loginNito" style="width:90px;margin:0 auto"></div>
+<h2 id="lt" style="text-align:center">Welcome to NeedIt</h2>
+<p>Log in to enter NeedIt. Your name and age stay on this device only.</p>
+<b>Language</b>
+<div class="lg"><button class="opt" data-l="en" aria-pressed="true">English</button><button class="opt" data-l="id" aria-pressed="false">Bahasa Indonesia</button></div>
+<label for="un">Your name</label><input id="un" maxlength="20" autocomplete="given-name" placeholder="e.g. Rani">
+<label for="ua">Your age</label><input id="ua" type="number" min="5" max="100" inputmode="numeric" placeholder="15">
+<p id="lerr" role="alert" class="note" style="color:var(--c);margin-top:8px"></p>
+<div style="display:flex;gap:10px"><button class="btn" id="lgo" style="flex:1;justify-content:center">Log in</button></div>
+</div>
+</div>
+
+<nav aria-label="Main">
+<b>NeedIt</b>
+<button data-go="home">🏠 Home</button><button data-go="dash">📊 Dashboard</button><button data-go="spend">💰 My Spending</button><button data-go="need">🛍️ Need or Want</button><button data-go="fomo">📱 FOMO Check</button><button data-go="goal">🎯 My Goal</button><button data-go="sim">🐷 Simulator</button><button data-go="tips">💡 Money Tips</button>
+<button class="sp" id="lang"></button><button id="me"></button>
+</nav>
+<main>
+
+<section id="home">
+<div class="hero">
+<div>
+<p id="hi" class="pct" style="margin:0 0 6px"></p>
+<h1>Need<span>It</span></h1>
+<h2>Buy Smart, Save More</h2>
+<p>Before you buy, take a moment to think. Need it, or just want it?</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button class="btn" data-go="dash">Start Checking</button>
+<button class="btn alt" data-go="tips">How It Works</button>
+</div>
+<div class="chips"><span class="chip">💰 Money</span><span class="chip">🛍️ Shopping</span><span class="chip">❤️ Needs</span><span class="chip">⭐ Wants</span><span class="chip">🎯 Goals</span><span class="chip">📊 Spending</span><span class="chip">🐷 Savings</span></div>
+</div>
+<div id="heroNito"></div>
+</div>
+<div class="card"><h3>Think before you buy. Track what you spend. Save for what matters.</h3>
+<p>Five tools, one habit: pause first. You'll never be judged here. Buying something you want is fine when you've thought it through.</p>
+<button class="spk" data-say="Before you buy something, stop and ask yourself: Do I need it, or do I just want it?"></button>
+<span class="note"> Before you buy, ask: do I need it, or do I just want it?</span></div>
+</section>
+
+<section id="dash">
+<div class="nito" data-n="happy" data-k="dash"></div>
+<div class="row" id="stats"></div>
+<div class="card" style="margin-top:16px"><h3>Money used</h3><div id="usedBar"></div></div>
+<div class="card"><h3>🎯 Savings Goal</h3><div id="dashGoal"></div></div>
+<div class="card"><h3>🏅 Badges</h3><div class="badges" id="badges"></div></div>
+</section>
+
+<section id="spend">
+<h2>My Spending</h2>
+<div class="card">
+<label for="allow">My allowance (Rp)</label><input id="allow" type="number" min="0" inputmode="numeric">
+<h3 style="margin-top:18px">Add something I bought</h3>
+<div class="row">
+<div><label for="iname">Item</label><input id="iname" placeholder="Bubble Tea"></div>
+<div><label for="iamt">Amount (Rp)</label><input id="iamt" type="number" min="0" inputmode="numeric" placeholder="25000"></div>
+<div><label for="idate">Date</label><input id="idate" type="date"></div>
+<div><label for="icat">Category</label><select id="icat"></select></div>
+<div><label for="itype">Type</label><select id="itype"></select></div>
+</div>
+<p id="err" class="note" role="alert" style="color:var(--c);margin-top:8px"></p>
+<button class="btn" id="add">Add Spending</button>
+</div>
+<div class="row" id="sumRow"></div>
+<div class="card" style="margin-top:16px"><h3>Needs vs Wants</h3><div id="nwBar"></div></div>
+<div class="card"><h3>Where my money went</h3><div id="catBars"></div></div>
+<div class="card" style="overflow-x:auto"><h3>History</h3><table id="hist"></table></div>
+</section>
+
+<section id="need">
+<h2>Need or Want?</h2>
+<div class="nito" data-n="think" data-k="need"></div>
+<div class="card">
+<label for="nitem">What do you want to buy?</label><input id="nitem" placeholder="New sneakers">
+<div id="nq"></div>
+<button class="btn" id="ncheck" style="margin-top:14px">See My Result</button>
+<div id="nres" aria-live="polite"></div>
+</div>
+</section>
+
+<section id="fomo">
+<h2>FOMO Check</h2>
+<div class="nito" data-n="think" data-k="fomo"></div>
+<div class="card">
+<p><b>FOMO means buying something because you don't want to feel left out.</b></p>
+<h3>Why do you want to buy it?</h3>
+<div class="opts" id="fwhy"></div>
+<h3>Would you still want it if you hadn't seen it online?</h3>
+<div class="opts" id="fyes"></div>
+<button class="btn" id="fcheck">See My Result</button>
+<div id="fres" aria-live="polite"></div>
+</div>
+</section>
+
+<section id="goal">
+<h2>My Money Goal</h2>
+<div class="nito" data-n="happy" data-k="goal"></div>
+<div class="card">
+<div class="row">
+<div><label for="gname">Goal</label><select id="gname"></select></div>
+<div><label for="gt">Target (Rp)</label><input id="gt" type="number" min="1" inputmode="numeric"></div>
+<div><label for="gs">Saved so far (Rp)</label><input id="gs" type="number" min="0" inputmode="numeric"></div>
+</div>
+<div id="gview" style="margin-top:16px"></div>
+</div>
+<div class="card"><h3>🏅 Badges</h3><div class="badges" id="badges2"></div></div>
+</section>
+
+<section id="sim">
+<h2>What If I Saved It?</h2>
+<div class="card">
+<div class="row">
+<div><label for="s0">Starting savings (Rp)</label><input id="s0" type="number" min="0" value="100000" inputmode="numeric"></div>
+<div><label for="s1">Amount saved (Rp)</label><input id="s1" type="number" min="0" value="25000" inputmode="numeric"></div>
+<div><label for="s2">Saved every</label><select id="s2"></select></div>
+<div><label for="s3">Months</label><input id="s3" type="number" min="1" max="60" value="12" inputmode="numeric"></div>
+<div><label for="s4">Interest per year, % (optional)</label><input id="s4" type="number" min="0" max="30" step="0.5" value="0" inputmode="decimal"></div>
+</div>
+</div>
+<div class="card" aria-live="polite"><div id="sres"></div></div>
+</section>
+
+<section id="tips">
+<h2>Money Tips</h2>
+<p class="note">Five quick lessons. Tap an answer to see how you did.</p>
+<div class="grid" id="tipgrid"></div>
+</section>
+
+</main>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const fmt=n=>'Rp'+Math.round(n).toLocaleString('id-ID');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const today=()=>new Date().toISOString().slice(0,10);
+let S={allow:350000,items:[{n:'Notebook & pens',a:65000,d:today(),c:'📚 Education',t:'Need'},{n:'Bubble tea',a:35000,d:today(),c:'🍔 Food',t:'Want'}],goal:{n:'🎧 New headphones',t:750000,s:250000},b:{},p:null,lang:null};
+try{const x=localStorage.getItem('needit');if(x)S=Object.assign(S,JSON.parse(x))}catch(e){}
+const save=()=>{try{localStorage.setItem('needit',JSON.stringify(S))}catch(e){}};
+let lang=S.lang||((navigator.language||'').startsWith('id')?'id':'en'),talking=null;
+const L=(a,b)=>lang==='id'?b:a,X=p=>p[lang==='id'?1:0],nm=()=>esc(S.p?S.p.name:'');
+
+const D={"🏠 Home":"🏠 Beranda","📊 Dashboard":"📊 Dasbor","💰 My Spending":"💰 Pengeluaranku","🛍️ Need or Want":"🛍️ Butuh atau Ingin","📱 FOMO Check":"📱 Cek FOMO","🎯 My Goal":"🎯 Targetku","💡 Money Tips":"💡 Tips Uang",
+"Welcome to NeedIt":"Selamat datang di NeedIt","Log in to enter NeedIt. Your name and age stay on this device only.":"Masuk untuk membuka NeedIt. Nama dan usiamu hanya tersimpan di perangkat ini.","Language":"Bahasa","Your name":"Namamu","Your age":"Usiamu","Log in":"Masuk","e.g. Rani":"mis. Rani",
+"Buy Smart, Save More":"Belanja Cerdas, Menabung Lebih Banyak","Before you buy, take a moment to think. Need it, or just want it?":"Sebelum membeli, luangkan waktu untuk berpikir. Benar-benar butuh, atau hanya ingin?","Start Checking":"Mulai Cek","How It Works":"Cara Kerja",
+"💰 Money":"💰 Uang","🛍️ Shopping":"🛍️ Belanja","❤️ Needs":"❤️ Kebutuhan","⭐ Wants":"⭐ Keinginan","🎯 Goals":"🎯 Target","📊 Spending":"📊 Pengeluaran","🐷 Savings":"🐷 Tabungan",
+"Think before you buy. Track what you spend. Save for what matters.":"Berpikir sebelum membeli. Catat pengeluaranmu. Menabung untuk hal yang penting.","Five tools, one habit: pause first. You'll never be judged here. Buying something you want is fine when you've thought it through.":"Lima fitur, satu kebiasaan: jeda dulu. Di sini kamu tidak akan dihakimi. Membeli sesuatu yang kamu inginkan itu boleh, kalau sudah dipikirkan matang.",
+"Before you buy, ask: do I need it, or do I just want it?":"Sebelum membeli, tanyakan: apakah aku butuh, atau hanya ingin?","Before you buy something, stop and ask yourself: Do I need it, or do I just want it?":"Sebelum membeli sesuatu, berhenti sejenak dan tanyakan pada dirimu: apakah aku butuh ini, atau hanya ingin?",
+"Money used":"Uang terpakai","🎯 Savings Goal":"🎯 Target Tabungan","🏅 Badges":"🏅 Lencana",
+"My Spending":"Pengeluaranku","My allowance (Rp)":"Uang sakuku (Rp)","Add something I bought":"Tambah barang yang kubeli","Item":"Barang","Amount (Rp)":"Jumlah (Rp)","Date":"Tanggal","Category":"Kategori","Type":"Jenis","Add Spending":"Tambah Pengeluaran","Needs vs Wants":"Kebutuhan vs Keinginan","Where my money went":"Ke mana uangku pergi","History":"Riwayat","Bubble Tea":"Boba","New sneakers":"Sepatu baru",
+"🍔 Food":"🍔 Makanan","🎮 Games":"🎮 Game","👕 Fashion":"👕 Fashion","📱 Technology":"📱 Teknologi","📚 Education":"📚 Pendidikan","🚗 Transport":"🚗 Transportasi","🎁 Others":"🎁 Lainnya","Need":"Kebutuhan","Want":"Keinginan","Notebook & pens":"Buku & pulpen","Bubble tea":"Boba",
+"Need or Want?":"Butuh atau Ingin?","What do you want to buy?":"Apa yang ingin kamu beli?","See My Result":"Lihat Hasilku",
+"FOMO Check":"Cek FOMO","FOMO means buying something because you don't want to feel left out.":"FOMO artinya membeli sesuatu karena tidak mau merasa ketinggalan.","Why do you want to buy it?":"Kenapa kamu ingin membelinya?","Would you still want it if you hadn't seen it online?":"Apakah kamu tetap menginginkannya kalau tidak melihatnya di internet?",
+"My Money Goal":"Target Uangku","Goal":"Tujuan","Saved so far (Rp)":"Tabungan saat ini (Rp)","🎧 New headphones":"🎧 Headphone baru","📱 New phone":"📱 HP baru","✈️ Trip":"✈️ Liburan","🎮 Gaming equipment":"🎮 Perlengkapan gaming","📚 School supplies":"📚 Perlengkapan sekolah","💰 Emergency savings":"💰 Dana darurat","🎯 Personal goal":"🎯 Target pribadi",
+"What If I Saved It?":"Bagaimana Kalau Aku Menabung?","Starting savings (Rp)":"Tabungan awal (Rp)","Amount saved (Rp)":"Jumlah ditabung (Rp)","Saved every":"Ditabung setiap","Months":"Lama (bulan)","Interest per year, % (optional)":"Bunga per tahun, % (opsional)",
+"Money Tips":"Tips Uang","Five quick lessons. Tap an answer to see how you did.":"Lima pelajaran singkat. Ketuk jawaban untuk melihat hasilmu."};
+const T2=s=>lang==='id'&&D[s]||s;
+const CATS=['🍔 Food','🎮 Games','👕 Fashion','📱 Technology','📚 Education','🚗 Transport','🎁 Others'],GOALS=['🎧 New headphones','📱 New phone','✈️ Trip','🎮 Gaming equipment','📚 School supplies','💰 Emergency savings','🎯 Personal goal'];
+
+function tx(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
+while(n=w.nextNode()){if(n.parentElement.closest('script,[data-say]'))continue;if(n._o===undefined){const k=n.nodeValue.trim();if(!k)continue;n._o=n.nodeValue;n._k=k}
+const m=n._o.match(/^(\s*)[\s\S]*?(\s*)$/);n.nodeValue=m[1]+T2(n._k)+m[2]}
+$$('[placeholder],[data-say]').forEach(e=>['placeholder','data-say'].forEach(a=>{if(!e.hasAttribute(a))return;const k='_'+a;if(e[k]===undefined)e[k]=e.getAttribute(a);e.setAttribute(a,T2(e[k]))}))}
+const fill=(sel,arr,lab)=>{const el=$(sel),v=el.value;el.innerHTML=arr.map(o=>`<option value="${o}">${lab(o)}</option>`).join('');el.value=arr.includes(v)?v:arr[0]};
+
+function nito(m){const e={happy:'M42 62q8 8 16 0',think:'M44 64h12',wow:'M50 60a5 5 0 1 0 .1 0'}[m]||'M42 62q8 8 16 0';
+return `<svg viewBox="0 0 100 100" role="img" aria-label="Nito, the money-saving buddy"><ellipse cx="50" cy="94" rx="26" ry="4" fill="#000" opacity=".12"/><rect x="12" y="26" width="76" height="62" rx="32" fill="#4CCB8A" stroke="#168A55" stroke-width="3"/><rect x="38" y="24" width="24" height="5" rx="2.5" fill="#0E5B38"/><path d="M50 22c-2-12 8-18 18-16-1 10-8 16-18 16z" fill="#FFC83D" stroke="#B88700" stroke-width="2"/><path d="M12 54c-8-2-9 8-2 10" fill="none" stroke="#168A55" stroke-width="3"/><circle cx="36" cy="50" r="6" fill="#fff"/><circle cx="64" cy="50" r="6" fill="#fff"/><circle cx="37" cy="51" r="3.2" fill="#14301F"/><circle cx="65" cy="51" r="3.2" fill="#14301F"/><circle cx="38" cy="50" r="1" fill="#fff"/><circle cx="66" cy="50" r="1" fill="#fff"/><path d="${e}" fill="${m==='wow'?'#14301F':'none'}" stroke="#14301F" stroke-width="3" stroke-linecap="round"/><circle cx="26" cy="62" r="4" fill="#FF9C8A" opacity=".7"/><circle cx="74" cy="62" r="4" fill="#FF9C8A" opacity=".7"/><circle cx="76" cy="78" r="9" fill="#FFC83D" stroke="#B88700" stroke-width="2"/><text x="76" y="82" font-size="11" font-weight="800" text-anchor="middle" fill="#7A5A00">Rp</text></svg>`}
+$('#heroNito').innerHTML=$('#loginNito').innerHTML=nito('happy');
+const NT={dash:()=>L(`Hi, ${nm()}! Ready to check your money?`,`Hai, ${nm()}! Siap cek uangmu?`),need:()=>L('Wait a second... Do you really need it?','Tunggu sebentar... Kamu benar-benar butuh?'),fomo:()=>L(`Would you still buy it if you didn't see it online?`,'Apakah kamu tetap membelinya kalau tidak melihatnya di internet?'),goal:()=>L(`You're getting closer to your goal!`,'Kamu makin dekat dengan targetmu!')};
+
+let authed=false;
+function go(id){if(!authed)return;$$('section').forEach(s=>s.classList.toggle('on',s.id===id));$$('nav [data-go]').forEach(b=>b.setAttribute('aria-current',b.dataset.go===id?'page':'false'));window.scrollTo(0,0);if(window.speechSynthesis)speechSynthesis.cancel();talking=null;$$('button[data-say]').forEach(lt);render()}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)go(g.dataset.go);const s=e.target.closest('[data-say]');if(s)say(s)});
+const lt=b=>b.textContent=L('🔊 Listen','🔊 Dengarkan');
+function say(btn){if(!window.speechSynthesis){btn.textContent=L('🔇 Audio not supported','🔇 Audio tidak didukung');return}
+if(talking===btn){speechSynthesis.cancel();talking=null;lt(btn);return}
+speechSynthesis.cancel();$$('button[data-say]').forEach(lt);const u=new SpeechSynthesisUtterance(btn.dataset.say);u.lang=L('en-US','id-ID');u.onend=()=>{if(talking===btn){talking=null;lt(btn)}};talking=btn;btn.textContent=L('⏸ Pause','⏸ Jeda');speechSynthesis.speak(u)}
+const listen=t=>`<button class="spk" data-say="${esc(t)}">${L('🔊 Listen','🔊 Dengarkan')}</button>`;
+
+const spent=()=>S.items.reduce((a,i)=>a+i.a,0),by=t=>S.items.filter(i=>i.t===t).reduce((a,i)=>a+i.a,0);
+const pct=(a,b)=>b>0?Math.min(100,Math.round(a/b*100)):0;
+const bar=parts=>`<div class="bar" role="img" aria-label="${parts.map(p=>p.l+' '+p.p+'%').join(', ')}">${parts.map(p=>`<i style="width:${p.p}%;background:${p.c}"></i>`).join('')}</div>`;
+const BD=[['🏆',['Smart Starter','Pemula Cerdas'],['Complete your first spending check.','Selesaikan catatan pengeluaran pertamamu.'],'ss'],['💰',['Savings Hero','Pahlawan Tabungan'],['Reach a savings goal.','Capai target tabunganmu.'],'sh'],['🧠',['Think First','Pikir Dulu'],['Complete the Need vs Want activity.','Selesaikan aktivitas Butuh atau Ingin.'],'tf'],['📱',['FOMO Fighter','Pejuang FOMO'],['Complete the FOMO Check.','Selesaikan Cek FOMO.'],'ff'],['🌱',['Money Grower','Pengelola Uang'],['Track 5 or more purchases.','Catat 5 pembelian atau lebih.'],'mg']];
+function badges(){if(S.items.length>=1)S.b.ss=1;if(S.items.length>=5)S.b.mg=1;if(S.goal.s>=S.goal.t&&S.goal.t>0)S.b.sh=1;save();
+return BD.map(b=>`<div class="bd ${S.b[b[3]]?'got':''}"><b>${b[0]} ${X(b[1])}</b><small>${X(b[2])}</small><br><b>${S.b[b[3]]?L('✓ Earned','✓ Didapat'):L('Not yet','Belum')}</b></div>`).join('')}
+const goalHTML=()=>{const g=S.goal,p=pct(g.s,g.t);return `<p><b>${T2(g.n)}</b>: ${fmt(g.s)} / ${fmt(g.t)}</p>${bar([{p,c:'var(--g)',l:L('saved','tersimpan')}])}<div class="pct">${p}% ${L('complete','tercapai')} · ${fmt(Math.max(0,g.t-g.s))} ${L('to go','lagi')}</div>`};
+
+function render(){
+const sp=spent(),left=S.allow-sp,used=pct(sp,S.allow);
+$('#stats').innerHTML=`<div class="stat s1"><small>${L('💰 Money Left','💰 Sisa Uang')}</small><strong>${fmt(left)}</strong></div><div class="stat s2"><small>${L('🛍️ Spent This Week','🛍️ Terpakai Minggu Ini')}</small><strong>${fmt(sp)}</strong></div><div class="stat s3"><small>${L('❤️ Needs','❤️ Kebutuhan')}</small><strong>${fmt(by('Need'))}</strong></div><div class="stat s4"><small>${L('⭐ Wants','⭐ Keinginan')}</small><strong>${fmt(by('Want'))}</strong></div>`;
+$('#usedBar').innerHTML=bar([{p:used,c:left<0?'var(--c)':'var(--b)',l:L('used','terpakai')}])+`<div class="pct">${L(`You have used ${used}% of ${fmt(S.allow)}.`,`Kamu sudah memakai ${used}% dari ${fmt(S.allow)}.`)}${left<0?L(' You are over budget. Try pausing on wants.',' Kamu melebihi anggaran. Coba tunda membeli keinginan.'):''}</div>`;
+$('#dashGoal').innerHTML=goalHTML();
+$('#sumRow').innerHTML=`<div class="stat s2"><small>${L('Total spent','Total pengeluaran')}</small><strong>${fmt(sp)}</strong></div><div class="stat s1"><small>${L('Money remaining','Sisa uang')}</small><strong>${fmt(left)}</strong></div><div class="stat s3"><small>${L('Needs','Kebutuhan')}</small><strong>${fmt(by('Need'))}</strong></div><div class="stat s4"><small>${L('Wants','Keinginan')}</small><strong>${fmt(by('Want'))}</strong></div>`;
+const np=pct(by('Need'),sp),wp=sp?100-np:0;
+$('#nwBar').innerHTML=bar([{p:np,c:'var(--g)',l:L('Needs','Kebutuhan')},{p:wp,c:'var(--y)',l:L('Wants','Keinginan')}])+`<div class="pct">❤️ ${L('Needs','Kebutuhan')} ${np}% · ⭐ ${L('Wants','Keinginan')} ${wp}%</div>`;
+const cats={};S.items.forEach(i=>cats[i.c]=(cats[i.c]||0)+i.a);
+$('#catBars').innerHTML=Object.entries(cats).map(([c,a])=>`<div style="margin-bottom:10px"><b>${esc(T2(c))}</b> · ${fmt(a)} (${pct(a,sp)}%)${bar([{p:pct(a,sp),c:'var(--b)',l:T2(c)}])}</div>`).join('')||`<p class="note">${L('Nothing yet. Add your first purchase above.','Belum ada. Tambahkan pembelian pertamamu di atas.')}</p>`;
+$('#hist').innerHTML=`<tr><th>${L('Item','Barang')}</th><th>${L('Category','Kategori')}</th><th>${L('Type','Jenis')}</th><th>${L('Amount','Jumlah')}</th><th>${L('Date','Tanggal')}</th><th><span class="note">${L('Remove','Hapus')}</span></th></tr>`+S.items.map((i,k)=>`<tr><td>${esc(T2(i.n))}</td><td>${esc(T2(i.c))}</td><td><span class="tag" style="border-color:${i.t==='Need'?'var(--g)':'var(--y)'}">${i.t==='Need'?'❤️':'⭐'} ${T2(i.t)}</span></td><td>${fmt(i.a)}</td><td>${i.d}</td><td><button class="spk" data-del="${k}" aria-label="${L('Remove','Hapus')} ${esc(i.n)}">✕</button></td></tr>`).join('');
+$('#badges').innerHTML=$('#badges2').innerHTML=badges();
+$('#gview').innerHTML=goalHTML()+(S.b.sh?`<div class="res s3">${L('🏆 Savings Hero! Great job! Your savings are growing!','🏆 Pahlawan Tabungan! Kerja bagus! Tabunganmu terus bertambah!')}</div>`:'');
+sim()}
+$('#hist').addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(d){S.items.splice(+d.dataset.del,1);save();render()}});
+$('#allow').value=S.allow;$('#allow').oninput=e=>{S.allow=Math.max(0,+e.target.value||0);save();render()};
+$('#idate').value=today();
+$('#add').onclick=()=>{const n=$('#iname').value.trim(),a=+$('#iamt').value;
+if(!n||!(a>0)){$('#err').textContent=L('Please add an item name and an amount above 0.','Isi nama barang dan jumlah lebih dari 0.');return}
+$('#err').textContent='';S.items.push({n,a,d:$('#idate').value||today(),c:$('#icat').value,t:$('#itype').value});save();$('#iname').value=$('#iamt').value='';render()};
+
+// Need or Want
+const NQ=[['Do you already have something similar?','Apakah kamu sudah punya barang yang mirip?'],['Will you use it often?','Apakah kamu akan sering memakainya?'],['Is it important for school, work, or daily life?','Apakah ini penting untuk sekolah, pekerjaan, atau kehidupan sehari-hari?'],['Would you still want it if you had never seen it on social media?','Apakah kamu tetap menginginkannya kalau tidak pernah melihatnya di media sosial?'],['Can you afford it without affecting important expenses?','Apakah kamu mampu membelinya tanpa mengganggu pengeluaran penting?']];
+const na={};
+const buildNQ=()=>$('#nq').innerHTML=NQ.map((q,i)=>`<fieldset style="border:0;padding:0;margin:10px 0"><legend><b>${i+1}. ${X(q)}</b></legend><div class="opts" style="grid-template-columns:1fr 1fr;margin:6px 0">${[1,0].map(v=>`<button class="opt" aria-pressed="${na[i]===v}" data-q="${i}" data-v="${v}">${v?L('✅ Yes','✅ Ya'):L('❌ No','❌ Tidak')}</button>`).join('')}</div></fieldset>`).join('');
+$('#nq').onclick=e=>{const b=e.target.closest('[data-q]');if(!b)return;na[b.dataset.q]=+b.dataset.v;$$(`[data-q="${b.dataset.q}"]`).forEach(x=>x.setAttribute('aria-pressed',x===b))};
+$('#ncheck').onclick=()=>{const r=$('#nres');if(Object.keys(na).length<5){r.innerHTML=`<p class="note" style="margin-top:12px">${L('Please answer all 5 questions first.','Jawab kelima pertanyaan dulu ya.')}</p>`;return}
+const item=esc($('#nitem').value.trim()||L('this item','barang ini'));
+const pts=(na[0]?0:1)+na[1]+na[2]+na[3];let h,t,c,ic;
+const W=[L('Maybe Wait','Mungkin Tunggu Dulu'),L(`You don't have to decide right now. Give yourself some time to think.`,'Kamu tidak harus memutuskan sekarang. Beri dirimu waktu untuk berpikir.')];
+if(!na[4]||(pts>1&&pts<3)){[h,t]=W;c=2;ic='⏳'}
+else if(pts>=3){h=L('Looks Like a Need','Terlihat Seperti Kebutuhan');t=L('This purchase has an important purpose. Just make sure it fits your budget.','Pembelian ini punya tujuan penting. Pastikan tetap sesuai anggaranmu.');c=1;ic='❤️'}
+else{h=L('Looks Like a Want','Terlihat Seperti Keinginan');t=L(`That's okay! Wants are part of life. Just check your budget before buying.`,'Tidak apa-apa! Keinginan itu bagian dari hidup. Cek anggaranmu dulu sebelum membeli.');c=3;ic='⭐'}
+r.innerHTML=`<div class="res s${c}"><h3>${ic} ${h}</h3><p>${L('About','Tentang')} <b>${item}</b>: ${t}</p>${listen(h+'. '+t)}</div>`;S.b.tf=1;save();render()};
+
+// FOMO
+const WHY=[['📱',['I saw it on social media.','Aku melihatnya di media sosial.'],1],['🔥',['Everyone is buying it.','Semua orang membelinya.'],1],['⭐',[`It's trending.`,'Lagi tren.'],1],['❤️',['I genuinely like it.','Aku memang suka.'],0],['🎯',['I actually need it.','Aku memang butuh.'],0]];let fw=null,fy=null;
+const buildFomo=()=>{$('#fwhy').innerHTML=WHY.map((w,i)=>`<button class="opt" aria-pressed="${fw===i}" data-w="${i}">${w[0]} ${X(w[1])}</button>`).join('');
+$('#fyes').innerHTML=`<button class="opt" aria-pressed="${fy===1}" data-y="1">${L('✅ Yes, I still would','✅ Ya, tetap mau')}</button><button class="opt" aria-pressed="${fy===0}" data-y="0">${L('🤔 Not sure / No','🤔 Tidak yakin / Tidak')}</button>`};
+$('#fomo').addEventListener('click',e=>{const w=e.target.closest('[data-w]'),y=e.target.closest('[data-y]');
+if(w){fw=+w.dataset.w;$$('[data-w]').forEach(x=>x.setAttribute('aria-pressed',x===w))}
+if(y){fy=+y.dataset.y;$$('[data-y]').forEach(x=>x.setAttribute('aria-pressed',x===y))}});
+$('#fcheck').onclick=()=>{const r=$('#fres');if(fw===null||fy===null){r.innerHTML=`<p class="note" style="margin-top:12px">${L('Pick a reason and an answer first.','Pilih alasan dan jawaban dulu ya.')}</p>`;return}
+let h,t,c;if(WHY[fw][2]&&!fy){h=L('Take a pause.','Ambil jeda dulu.');t=L(`Trends can be exciting, but you don't have to buy everything that becomes popular. Try the 24-hour pause: wait one day, then decide.`,'Tren memang seru, tapi kamu tidak harus membeli semua yang sedang populer. Coba jeda 24 jam: tunggu sehari, lalu putuskan.');c=4}
+else if(WHY[fw][2]){h=L('Sounds like a real interest.','Sepertinya kamu memang tertarik.');t=L(`You'd still want it without the online hype. Check your budget, and sleep on it for 24 hours if it's not essential.`,'Kamu tetap menginginkannya tanpa hype di internet. Cek anggaranmu, dan tunggu 24 jam jika barangnya tidak penting.');c=3}
+else if(!fy){h=L('Think a little more.','Pikirkan sedikit lagi.');t=L(`Your reason is solid, but you're not sure you'd still want it. A 24-hour pause can help.`,'Alasanmu kuat, tapi kamu belum yakin tetap menginginkannya. Jeda 24 jam bisa membantu.');c=2}
+else{h=L('Looks like a thoughtful choice.','Terlihat seperti pilihan yang matang.');t=L('You have a real reason. Make sure it fits your budget.','Kamu punya alasan yang jelas. Pastikan sesuai anggaranmu.');c=1}
+r.innerHTML=`<div class="res s${c}"><h3>${h}</h3><p>${t}</p>${listen(h+' '+t)}</div>`;S.b.ff=1;save();render()};
+
+// Goal
+$('#gt').value=S.goal.t;$('#gs').value=S.goal.s;
+['#gt','#gs','#gname'].forEach(s=>$(s).oninput=()=>{S.goal={n:$('#gname').value,t:+$('#gt').value||0,s:+$('#gs').value||0};save();render()});
+
+// Simulator
+function sim(){const s0=+$('#s0').value||0,a=+$('#s1').value||0,m=Math.max(1,Math.min(60,+$('#s3').value||1)),r=(+$('#s4').value||0)/100/12,perM=$('#s2').value==='w'?a*52/12:a;
+let v=s0,pts=[];for(let i=1;i<=m;i++){v=v*(1+r)+perM;pts.push(v)}
+const ms=[1,6,12].filter(k=>k<=m);if(!ms.includes(m))ms.push(m);const mx=Math.max(...pts,1),put=s0+perM*m;
+$('#sres').innerHTML=`<div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><div style="width:80px">${nito('wow')}</div><div><h3>${L(`After ${m} month${m>1?'s':''}: `,`Setelah ${m} bulan: `)}${fmt(v)}</h3><p>${L(`You'd put in ${fmt(put)}`,`Kamu menyetor ${fmt(put)}`)}${r>0?L(` and earn about ${fmt(v-put)} in interest`,` dan mendapat bunga sekitar ${fmt(v-put)}`):''}.</p></div></div>
+<div class="jar" role="img" aria-label="${L('Savings growing month by month','Tabungan bertambah setiap bulan')}">${pts.map(p=>`<div style="height:${Math.max(3,p/mx*100)}%"></div>`).join('')}</div>
+<div class="grid">${ms.map(k=>`<div class="stat s${k===m?1:2}"><small>${L(`${k} Month${k>1?'s':''}`,`${k} Bulan`)}</small><strong>${fmt(pts[k-1])}+</strong></div>`).join('')}</div>
+<p style="margin-top:12px"><b>${L('Small amounts can make a big difference when you save consistently.','Jumlah kecil bisa berarti besar kalau kamu menabung secara konsisten.')}</b></p>`}
+['#s0','#s1','#s2','#s3','#s4'].forEach(s=>$(s).oninput=sim);
+
+// Tips
+const T=[['❤️',['Need vs Want','Butuh vs Ingin'],['Needs keep you safe and learning. Wants are nice extras.','Kebutuhan menjaga kamu tetap aman dan belajar. Keinginan adalah tambahan yang menyenangkan.'],['Example: school shoes = need. A third pair of limited sneakers = want.','Contoh: sepatu sekolah = kebutuhan. Sepatu edisi terbatas ketiga = keinginan.'],['Is a charger for your only phone a need or a want?','Apakah charger untuk satu-satunya HP-mu itu kebutuhan atau keinginan?'],[['Need','Kebutuhan'],['Want','Keinginan']],0],
+['⏳',['Think Before You Buy','Pikir Dulu Sebelum Membeli'],['Wait 24 hours before buying non-essentials.','Tunggu 24 jam sebelum membeli barang yang tidak penting.'],['Example: still want it tomorrow? Then check your budget.','Contoh: besok masih mau? Kalau iya, cek anggaranmu.'],['What is a good first step before an impulse buy?','Apa langkah pertama yang baik sebelum membeli impulsif?'],[['Wait a day','Tunggu sehari'],['Buy now','Beli sekarang']],0],
+['📱',['Watch Out for FOMO','Waspadai FOMO'],['Trends change fast. Your money does not come back as fast.','Tren berubah cepat. Uangmu tidak kembali secepat itu.'],['Example: a friend posts a new gadget and you suddenly "need" it.','Contoh: teman memposting gadget baru dan tiba-tiba kamu merasa "butuh".'],['Is "everyone has it" a good reason to buy?','Apakah "semua orang punya" alasan yang baik untuk membeli?'],[['Yes','Ya'],['Not by itself','Tidak, kalau hanya itu']],1],
+['📊',['Set a Budget','Buat Anggaran'],['Give your money a job before you spend it.','Beri uangmu tugas sebelum kamu membelanjakannya.'],['Example: allowance Rp300.000. Spent Rp120.000. That is 40% used.','Contoh: uang saku Rp300.000. Terpakai Rp120.000. Artinya 40% terpakai.'],['Spent Rp120.000 of Rp300.000. What percent is used?','Terpakai Rp120.000 dari Rp300.000. Berapa persen yang terpakai?'],[['40%','40%'],['60%','60%']],0],
+['🐷',['Save a Little','Menabung Sedikit-sedikit'],['Small, regular savings add up.','Tabungan kecil yang rutin akan menumpuk.'],['Example: Rp25.000 a week is Rp100.000 in a month.','Contoh: Rp25.000 seminggu jadi Rp100.000 sebulan.'],['Which grows more over a year?','Mana yang lebih besar dalam setahun?'],[['Rp25.000 every week','Rp25.000 setiap minggu'],['One Rp25.000 once','Rp25.000 sekali saja']],0]];
+const buildTips=()=>$('#tipgrid').innerHTML=T.map((t,i)=>`<div class="card"><div style="font-size:2.6rem" aria-hidden="true">${t[0]}</div><h3>${X(t[1])}</h3><p>${X(t[2])}</p><p class="note">${X(t[3])}</p><p><b>${X(t[4])}</b></p><div class="opts" style="grid-template-columns:1fr 1fr">${t[5].map((o,k)=>`<button class="opt" data-tip="${i}" data-k="${k}">${X(o)}</button>`).join('')}</div><p id="tf${i}" aria-live="polite"></p></div>`).join('');
+$('#tipgrid').onclick=e=>{const b=e.target.closest('[data-tip]');if(!b)return;const i=+b.dataset.tip,ok=+b.dataset.k===T[i][6];$('#tf'+i).innerHTML=ok?`<b style="color:var(--g)">${L('✅ Correct! Great job!','✅ Benar! Kerja bagus!')}</b>`:`<b style="color:var(--c)">${L('❌ Not quite. Try the other one.','❌ Belum tepat. Coba yang lain.')}</b>`};
+
+// Language + profile
+function applyLang(){document.documentElement.lang=lang;if(window.speechSynthesis)speechSynthesis.cancel();talking=null;
+$('#nres').innerHTML=$('#fres').innerHTML='';$('#err').textContent=$('#lerr').textContent='';
+tx();
+$$('[data-l]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===lang));
+$('#lang').textContent='🌐 '+lang.toUpperCase();$('#lang').setAttribute('aria-label',L('Change language','Ganti bahasa'));
+$('#me').textContent=S.p?`🚪 ${S.p.name} · ${L('Log out','Keluar')}`:'';$('#me').setAttribute('aria-label',L('Log out','Keluar'));$('#me').style.display=authed?'':'none';
+$('#hi').textContent=authed&&S.p?L(`Hi, ${S.p.name}!`,`Hai, ${S.p.name}!`):'';
+$$('button[data-say]').forEach(lt);
+fill('#icat',CATS,T2);fill('#itype',['Need','Want'],T2);fill('#gname',GOALS,T2);$('#gname').value=S.goal.n;fill('#s2',['w','m'],v=>v==='w'?L('Week','Minggu'):L('Month','Bulan'));
+$$('.nito').forEach(el=>el.innerHTML=nito(el.dataset.n)+`<p>${NT[el.dataset.k]()}</p>`);
+buildNQ();buildFomo();buildTips();render()}
+function setLang(l){lang=l;S.lang=l;save();applyLang()}
+$$('[data-l]').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+$('#lang').onclick=()=>setLang(lang==='en'?'id':'en');
+function showLogin(){authed=false;document.body.classList.add('locked');if(window.speechSynthesis)speechSynthesis.cancel();$('#un').value=S.p?S.p.name:'';$('#ua').value=S.p?S.p.age:'';$('#lerr').textContent='';$('#login').classList.add('on');$('#un').focus()}
+$('#me').onclick=showLogin;
+$('#lgo').onclick=()=>{const n=$('#un').value.trim(),a=Math.round(+$('#ua').value),e=$('#lerr');
+if(!n){e.textContent=L('Please enter your name.','Silakan isi namamu.');return}
+if(!(a>=5&&a<=100)){e.textContent=L('Please enter an age between 5 and 100.','Isi usia antara 5 sampai 100.');return}
+S.p={name:n,age:a};save();authed=true;document.body.classList.remove('locked');$('#login').classList.remove('on');applyLang();go('home')};
+$('#login').onkeydown=e=>{if(e.key==='Enter')$('#lgo').click()};
+
+applyLang();showLogin();
+</script>
+</body>
+</html>
